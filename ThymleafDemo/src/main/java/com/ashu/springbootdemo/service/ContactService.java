@@ -1,15 +1,14 @@
 package com.ashu.springbootdemo.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ashu.springbootdemo.model.Contact;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ContactService {
-
-	private static final Logger log = LoggerFactory.getLogger(ContactService.class);
 
 	public void saveMessageDetails(Contact contact) {
 		log.info("Name : " + contact.getName());
