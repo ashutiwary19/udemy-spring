@@ -1,8 +1,9 @@
 package com.ashu.aop.interfaces.impl;
 
 import org.springframework.stereotype.Component;
-
 import com.ashu.aop.interfaces.Speaker;
+import com.ashu.aop.interfaces.Speaker;
+
 import com.ashu.aop.models.Song;
 
 @Component
