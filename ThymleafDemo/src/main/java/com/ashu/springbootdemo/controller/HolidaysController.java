@@ -7,14 +7,23 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ashu.springbootdemo.model.Holiday;
 
 @Controller
-public class HolildaysController {
+public class HolidaysController {
 
-	@GetMapping("/holidays")
-	public String displayHolidays(Model model) {
+	@GetMapping("/holidays/{display}")
+	public String displayHolidays(
+			/* @RequestParam Boolean festival, @RequestParam Boolean federal */ @PathVariable String display,
+			Model model) {
+		model.addAttribute("festival",
+				Holiday.Type.FESTIVAL.toString().equalsIgnoreCase(display) || display.equalsIgnoreCase("ALL"));
+		model.addAttribute("federal",
+				Holiday.Type.FEDERAL.toString().equalsIgnoreCase(display) || display.equalsIgnoreCase("ALL"));
+
 		List<Holiday> holidays = Arrays.asList(new Holiday(" Jan 1 ", "New Year's Day", Holiday.Type.FESTIVAL),
 				new Holiday(" Oct 31 ", "Halloween", Holiday.Type.FESTIVAL),
 				new Holiday(" Nov 24 ", "Thanksgiving Day", Holiday.Type.FESTIVAL),
@@ -29,7 +38,7 @@ public class HolildaysController {
 			model.addAttribute(type.toString(),
 					holidays.stream().filter(holiday -> type.equals(holiday.getType())).collect(Collectors.toList()));
 		}
-		
+
 		return "holiday.html";
 
 	}

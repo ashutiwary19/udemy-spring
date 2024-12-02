@@ -49,14 +49,26 @@ Author URL: http://w3layouts.com
         </div>
         <div class="row contact-block">
           <div class="col-md-7 contact-right">
-            <form th:action="@{/saveMsg}" method="post" class="signin-form">
+            <ul>
+              <li
+                class="alert alert-danger"
+                role="alert"
+                th:each="error : ${#fields.errors('contact.*')}"
+                th:text="${error}"
+              />
+            </ul>
+            <form
+              th:action="@{/saveMsg}"
+              method="post"
+              class="signin-form"
+              th:object="${contact}"
+            >
               <div class="input-grids">
                 <div class="row">
                   <div class="col-sm-6">
                     <input
                       type="text"
-                      name="name"
-                      id="name"
+                      th:field="*{name}"
                       placeholder="Your Name"
                       class="contact-input"
                     />
@@ -64,8 +76,7 @@ Author URL: http://w3layouts.com
                   <div class="col-sm-6">
                     <input
                       type="text"
-                      name="mobileNum"
-                      id="mobileNum"
+                      th:field="*{mobileNum}"
                       placeholder="Your Mobile Number"
                       class="contact-input"
                     />
@@ -73,23 +84,20 @@ Author URL: http://w3layouts.com
                 </div>
                 <input
                   type="text"
-                  name="email"
-                  id="email"
+                  th:field="*{email}"
                   placeholder="Your Email"
                   class="contact-input"
                 />
                 <input
                   type="text"
-                  name="subject"
-                  id="subject"
+                  th:field="*{subject}"
                   placeholder="Subject"
                   class="contact-input"
                 />
               </div>
               <div class="form-input">
                 <textarea
-                  name="message"
-                  id="message"
+                  th:field="*{message}"
                   placeholder="Type your message here"
                 ></textarea>
               </div>
