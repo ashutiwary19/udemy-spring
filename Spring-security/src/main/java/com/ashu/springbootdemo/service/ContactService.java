@@ -1,7 +1,7 @@
 package com.ashu.springbootdemo.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-//@RequestScope
-//@SessionScope
-@ApplicationScope
+@SessionScope
 public class ContactService {
 	private int counter = 0;
 
