@@ -19,7 +19,7 @@ public class SecurityConfig {
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //		http.authorizeHttpRequests(request -> request.anyRequest().permitAll());
 //		http.authorizeHttpRequests(request -> request.anyRequest().denyAll());
-		http.csrf(csrf -> csrf.disable());
+//		http.csrf(csrf -> csrf.disable());
 		http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/dashboard").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("", "/", "/home").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/assets/**").permitAll())
@@ -27,7 +27,9 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/contact").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/saveMsg").permitAll())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/courses").permitAll())
-				.csrf(csrf -> csrf.disable());
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login").permitAll())
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/logout").permitAll())
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg"));
 		http.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/dashboard")
 				.failureUrl("/login?error=true").permitAll());
 		http.logout(logout -> logout.logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll());

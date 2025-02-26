@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class LoginController {
-	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/signin", method = { RequestMethod.GET, RequestMethod.POST })
 	public String displayLoginPage(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model) {
 		String errorMessge = null;
@@ -27,7 +27,7 @@ public class LoginController {
 			errorMessge = "You have been successfully logged out !!";
 		}
 		model.addAttribute("errorMessge", errorMessge);
-		return "login.html";
+		return "signin.html";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -36,7 +36,7 @@ public class LoginController {
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return "redirect:/login?logout=true";
+		return "redirect:/signin?logout=true";
 	}
 
 }

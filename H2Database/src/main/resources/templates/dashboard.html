@@ -3,7 +3,11 @@ Author: W3layouts
 Author URL: http://w3layouts.com
 -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -27,10 +31,10 @@ Author URL: http://w3layouts.com
     <section class="inner-banner py-5">
       <div class="w3l-breadcrumb py-lg-5">
         <div class="container pt-4 pb-sm-4">
-          <h4 class="inner-text-title pt-5">LogIn</h4>
+          <h4 class="inner-text-title pt-5">Dashboard</h4>
           <ul class="breadcrumbs-custom-path">
             <li><a th:href="@{/home}">Home</a></li>
-            <li class="active"><i class="fas fa-angle-right"></i>LogIn</li>
+            <li class="active"><i class="fas fa-angle-right"></i>Dashboard</li>
           </ul>
         </div>
       </div>
@@ -44,50 +48,40 @@ Author URL: http://w3layouts.com
           class="title-main text-center mx-auto mb-md-5 mb-4"
           style="max-width: 500px"
         >
-          <h3 class="title-style">LogIn</h3>
-        </div>
-        <div class="row login-block">
-          <div class="col-md-6 login-center">
-            <form th:action="@{/login}" method="post" class="signin-form">
-              <div class="col-md-8 login-center input-grids">
-                <input
-                  type="hidden"
-                  th:name="${_csrf.parameterName}"
-                  th:value="${_csrf.token}"
-                />
-                <li
-                  class="alert alert-danger"
-                  role="alert"
-                  th:if="${!#strings.isEmpty(errorMessge)}"
-                  th:text="${errorMessge}"
-                />
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  placeholder="Username"
-                  class="login-input"
-                />
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  class="login-input"
-                />
-              </div>
-              <div class="col-md-8 login-center text-start">
-                <button class="btn btn-style btn-style-3 text-left">
-                  Log In
-                </button>
-                <a class="new-user text-right" href="">New User ?</a>
-              </div>
-            </form>
-          </div>
+          <h3 class="title-style" th:text="${'Welcome - ' + username}"></h3>
+          <p class="" th:text="${'You logged in as - ' + roles}"></p>
         </div>
       </div>
     </section>
     <!-- //login block -->
+
+    <div class="container py-md-5 py-4">
+      <div class="section__content section__content--p30">
+        <div class="container-fluid">
+          <div class="row m-t-25">
+            <div
+              class="col-sm-6 col-lg-3"
+              sec:authorize="hasRole('ROLE_ADMIN')"
+            >
+              <a th:href="@{/displayMessages}">
+                <div class="overview-item overview-item--c3">
+                  <div class="overview__inner">
+                    <div class="overview-box clearfix">
+                      <div class="icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                      </div>
+                      <div class="text">
+                        <h2>Messages</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- footer block -->
     <div th:replace="~{footer :: footer}">...</div>
