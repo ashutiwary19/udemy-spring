@@ -21,7 +21,8 @@ public class SecurityConfig {
 //		http.authorizeHttpRequests(request -> request.anyRequest().denyAll());
 //		http.csrf(csrf -> csrf.disable());
 
-		http.csrf((csrf) -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/saveMsg")))
+		http.csrf((csrf) -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/saveMsg"))
+				.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/public/**")))
 				.authorizeHttpRequests((requests) -> requests
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/dashboard")).authenticated())
 				.authorizeHttpRequests(authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/"),
@@ -34,6 +35,8 @@ public class SecurityConfig {
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/contact")).permitAll())
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/saveMsg")).permitAll())
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/public/**")).permitAll())
 				.authorizeHttpRequests(
 						authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/courses"))
 								.permitAll())

@@ -1,6 +1,5 @@
 package com.ashu.springbootdemo.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +31,6 @@ public class ContactService {
 		log.info("Subject : " + contact.getSubject());
 		log.info("Message : " + contact.getMessage());
 		contact.setStatus(MESSAGE_STATUS_OPEN);
-		contact.setCreatedAt(LocalDateTime.now());
-		contact.setCreatedBy("Ashu Tiwary");
 		Contact contactSaved = contactRepository.save(contact);
 		log.info("Rows inserted : " + contactSaved.getContactId());
 		return contactSaved.getContactId() > 0;
@@ -47,8 +44,6 @@ public class ContactService {
 		Optional<Contact> contactOp = contactRepository.findById(id);
 		contactOp.ifPresent(contact -> {
 			contact.setStatus(MESSAGE_STATUS_CLOSE);
-			contact.setUpdateAt(LocalDateTime.now());
-			contact.setUpdatedBy(updateUser);
 		});
 
 		Contact contact = contactRepository.save(contactOp.get());
