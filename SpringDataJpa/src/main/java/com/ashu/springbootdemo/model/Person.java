@@ -1,14 +1,19 @@
 package com.ashu.springbootdemo.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 
 import com.ashu.springbootdemo.annotation.FieldsValueMatch;
 import com.ashu.springbootdemo.annotation.PasswordValidator;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -54,4 +59,12 @@ public class Person extends BaseEntity {
 	@Size(min = 5, message = "Confirm Password must be at least 5 characters long")
 	@Transient
 	private String confirmPwd;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Address.class)
+	@JoinColumn(name = "address_id", referencedColumnName = "addressId", nullable = true)
+	private Address address;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
+	@JoinColumn(name = "roleId", referencedColumnName = "roleId", nullable = false)
+	private Roles role;
 }

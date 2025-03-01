@@ -3,8 +3,9 @@ package com.ashu.springbootdemo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ashu.springbootdemo.model.Holiday;
+import com.ashu.springbootdemo.model.Roles;
 
 @Repository
-public interface HolidayRepository extends JpaRepository<Holiday, String> {
+public interface RolesRepository extends JpaRepository<Roles, Integer> {
+
 }
