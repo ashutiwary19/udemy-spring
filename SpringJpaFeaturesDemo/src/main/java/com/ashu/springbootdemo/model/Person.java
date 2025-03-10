@@ -1,5 +1,8 @@
 package com.ashu.springbootdemo.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 
@@ -13,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
@@ -67,4 +72,14 @@ public class Person extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
 	@JoinColumn(name = "roleId", referencedColumnName = "roleId", nullable = false)
 	private Roles role;
+
+	@ManyToOne(fetch = FetchType.EAGER, optional = true, targetEntity = Clazz.class)
+	@JoinColumn(name = "class_id", referencedColumnName = "classId", nullable = true)
+	private Clazz clazz;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "person_courses", joinColumns = {
+			@JoinColumn(name = "person_id", referencedColumnName = "personId") }, inverseJoinColumns = {
+					@JoinColumn(name = "course_id", referencedColumnName = "courseId") })
+	private Set<Courses> courses = new HashSet<>();
 }

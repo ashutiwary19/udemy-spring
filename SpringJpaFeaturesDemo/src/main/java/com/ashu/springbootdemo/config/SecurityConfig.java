@@ -34,6 +34,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/holidays/**")).permitAll())
 				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**")).permitAll())
+				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/contact")).permitAll())
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/saveMsg")).permitAll())
