@@ -49,7 +49,7 @@ public class SecurityConfig {
 						authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/displayProfile"))
 								.permitAll())
 				.authorizeHttpRequests(
-						authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/displayMessages"),
+						authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/displayMessages/**"),
 								AntPathRequestMatcher.antMatcher("/closeMessage/**")).hasRole("ADMIN"))
 				.authorizeHttpRequests(
 						authorize -> authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/login")).permitAll())

@@ -5,12 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +28,7 @@ public class ContactController {
 	private static final Logger log = LoggerFactory.getLogger(ContactController.class);
 
 	@Autowired
-	private ContactService ContactService;
+	private ContactService contactService;
 
 	@RequestMapping("/contact")
 	public String displayContactPage(Model model) {
@@ -48,21 +50,30 @@ public class ContactController {
 			log.error("Conctact form validation vfailed udue to : " + errors.toString());
 			return "contact.html";
 		}
-		ContactService.saveMessageDetails(contact);
+		contactService.saveMessageDetails(contact);
 		return "redirect:/contact";
 	}
 
-	@GetMapping("/displayMessages")
-	public ModelAndView displayMessages(Model model) {
-		List<Contact> contactMsgs = ContactService.findMsgsWithOpenStatus();
+	@GetMapping("/displayMessages/page/{pageNum}")
+	public ModelAndView displayMessages(Model model, @PathVariable(name = "pageNum") int pageNum,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
+		Page<Contact> msgPage = contactService.findMsgsWithOpenStatus(pageNum, sortField, sortDir);
+		List<Contact> contactMsgs = msgPage.getContent();
 		ModelAndView modelAndView = new ModelAndView("messages.html");
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", msgPage.getTotalPages());
+		model.addAttribute("totalMsgs", msgPage.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		modelAndView.addObject("contactMsgs", contactMsgs);
 		modelAndView.addObject("contactMsgs", contactMsgs);
 		return modelAndView;
 	}
 
 	@GetMapping("/closeMessage")
 	public String closeMessage(@RequestParam Integer id, Authentication authentication) {
-		boolean isUpdate = ContactService.updateMessageStatus(id, authentication.getName());
+		boolean isUpdate = contactService.updateMessageStatus(id, authentication.getName());
 		log.info("is message status updated : " + isUpdate);
 		return "redirect:/displayMessages";
 	}

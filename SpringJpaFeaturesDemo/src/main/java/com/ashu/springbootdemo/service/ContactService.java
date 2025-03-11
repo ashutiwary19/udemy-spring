@@ -3,6 +3,10 @@ package com.ashu.springbootdemo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -36,8 +40,11 @@ public class ContactService {
 		return contactSaved.getContactId() > 0;
 	}
 
-	public List<Contact> findMsgsWithOpenStatus() {
-		return contactRepository.findByStatus(MESSAGE_STATUS_OPEN);
+	public Page<Contact> findMsgsWithOpenStatus(Integer pageNum, String sortField, String sortDir) {
+		int pageSize = 5;
+		Pageable pageable = PageRequest.of(pageNum - 1, pageSize,
+				equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return contactRepository.findByStatus(MESSAGE_STATUS_OPEN, pageable);
 	}
 
 	public boolean updateMessageStatus(Integer id, String updateUser) {
