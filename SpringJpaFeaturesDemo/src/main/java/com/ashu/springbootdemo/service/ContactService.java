@@ -1,6 +1,5 @@
 package com.ashu.springbootdemo.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -53,7 +52,9 @@ public class ContactService {
 			contact.setStatus(MESSAGE_STATUS_CLOSE);
 		});
 
-		Contact contact = contactRepository.save(contactOp.get());
-		return contact != null;
+//		Contact contact = contactRepository.save(contactOp.get());
+		int updatedRows = contactRepository.updateStatusById(MESSAGE_STATUS_CLOSE, id);
+
+		return updatedRows > 0;
 	}
 }
